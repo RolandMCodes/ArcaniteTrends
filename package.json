@@ -1,0 +1,18 @@
+{
+  "name": "arcanite-trends",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Display-only Classic Era Auctionator companion",
+  "type": "module",
+  "engines": { "node": ">=22.13.0" },
+  "scripts": {
+    "test": "node scripts/test.mjs",
+    "test:tools": "node --test tests/tools.test.mjs",
+    "seed": "node scripts/export-seed.mjs",
+    "release": "node scripts/prepare-release.mjs"
+  },
+  "devDependencies": {
+    "fengari": "0.1.4",
+    "luaparse": "0.3.1"
+  }
+}

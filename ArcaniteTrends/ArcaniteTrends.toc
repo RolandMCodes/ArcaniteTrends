@@ -1,0 +1,14 @@
+## Interface: 11508, 11509
+## Title: ArcaniteTrends
+## Notes: Auctionator price history for Mankrik Alliance transmutes.
+## Author: RolandMCodes
+## Version: 1.0.0
+## Dependencies: Auctionator
+## SavedVariables: ArcaniteTrendsDB
+## License: MIT
+
+Core.lua
+SeedData.lua
+AuctionatorAdapter.lua
+UI.lua
+Main.lua
