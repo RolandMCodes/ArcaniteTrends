@@ -20,7 +20,7 @@ The 5% auction cut is rounded down in copper. A 30-silver 24-hour deposit is sho
 1. Close World of Warcraft.
 2. Copy the `ArcaniteTrends` folder into your `_classic_era_/Interface/AddOns` directory alongside Auctionator. The folder must contain `ArcaniteTrends.toc` directly.
 3. Start Classic Era and enable both Auctionator and ArcaniteTrends in the addon list.
-4. Log in and click the gold-bar minimap icon or type `/arc`. Drag the window header to move it and its lower-right corner to resize it. Drag the minimap icon to reposition it. Escape closes the window.
+4. Log in and click the ArcaniteTrends minimap icon or type `/arc`. Drag the window header to move it and its lower-right corner to resize it. Drag the minimap icon to reposition it. Escape closes the window.
 
 On Windows, the included installer can do step 2 and back up an existing addon version:
 
@@ -64,7 +64,7 @@ npm run release
 
 Development dependencies are pinned and never installed into WoW. Lua files are checked against Lua 5.1 syntax, then run using Fengari with mocked WoW/Auctionator interfaces. Tests cover history retention, dates, calculations, asynchronous processing and the UI lifecycle. The release command builds a new allowlisted source directory under `dist`, audits the empty seed and private-data patterns, and records SHA-256 hashes.
 
-In-game validation remains necessary: test `/arc`, the minimap button, window size/position, date tooltips, a normal Auctionator search and full scan, and preservation after `/reload` and relogging. Automated mocks cannot prove client rendering or live addon coexistence. Version 0.1.0 is an initial release until those checks have been performed in the actual Classic Era client.
+In-game smoke check, September 7, 2026: the player confirmed that the `/arc` and normal Auctionator scan workflow worked in Classic Era. Automated mocks additionally cover the minimap toggle, geometry, tooltip data, full-scan callback path, and saved-history round trips. Detailed visual layout, a live full scan, and persistence through an actual `/reload` and relog remain manual checks; automated mocks alone cannot prove those client behaviors.
 
 ## Addon policy and source
 
