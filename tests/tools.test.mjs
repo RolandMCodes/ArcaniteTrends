@@ -62,7 +62,18 @@ test('Windows installer previews, installs and backs up only the named addon', {
     const addons = join(wowRoot,'Interface','AddOns');
     await mkdir(join(addons,'Auctionator'),{recursive:true});
     await writeFile(join(addons,'Auctionator','Auctionator.toc'),'synthetic fixture');
-    const run = (extra=[]) => spawnSync('powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-File',resolve('scripts/install.ps1'),'-WowRoot',wowRoot,'-BackupRoot',join(dir,'backups'),...extra],{encoding:'utf8'});
+    // Control the process fixture in this child shell so tests stay deterministic
+    // while the player is using WoW. The real installer always checks processes.
+    const quotePS = (value) => "'" + value.replaceAll("'", "''") + "'";
+    const run = (extra=[], running=false) => {
+      const fixture = running ? "@([pscustomobject]@{ProcessName='WoWClassic'})" : '@()';
+      const script = 'function Get-Process { ' + fixture + ' }; & ' + quotePS(resolve('scripts/install.ps1'))
+        + ' -WowRoot ' + quotePS(wowRoot) + ' -BackupRoot ' + quotePS(join(dir,'backups')) + ' ' + extra.join(' ');
+      return spawnSync('powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-Command',script],{encoding:'utf8'});
+    };
+    const blocked = run([],true);
+    assert.notEqual(blocked.status,0);
+    assert.match(blocked.stderr,/Close World of Warcraft/);
     let result=run(['-WhatIf']);
     assert.equal(result.status,0,result.stderr);
     await assert.rejects(readFile(join(addons,'ArcaniteTrends','Main.lua')));
